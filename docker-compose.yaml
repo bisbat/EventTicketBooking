@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17
-    container_name: postgres_db
+    container_name: postgres_db_event
     restart: always
     environment:
       POSTGRES_USER: eventUser

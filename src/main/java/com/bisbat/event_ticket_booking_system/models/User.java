@@ -1,0 +1,79 @@
+package com.bisbat.event_ticket_booking_system.models;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
+@Entity
+@Table(name = "users")
+@Data
+public class User implements UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(nullable = false, length = 100)
+    private String fname;
+
+    @Column(nullable = false, length = 100)
+    private String lname;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    // --- ส่วนที่ต้องเพิ่มเข้ามาเพราะ implements UserDetails ---
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // แปลง Role ของเราให้ Spring Security เข้าใจ (มักจะนำหน้าด้วย ROLE_)
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        // Spring Security ใช้คำว่า Username แต่ระบบเราใช้ Email ในการล็อกอิน
+        // ดังนั้นตรงนี้เราต้อง return email กลับไปครับ
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    // --- 4 เมธอดด้านล่างนี้ เป็นการเช็คสถานะบัญชี (เช่น โดนแบนไหม) ---
+    // เพื่อความง่าย เบื้องต้นเรา return true ให้หมดไปก่อนครับ
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+}

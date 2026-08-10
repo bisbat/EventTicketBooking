@@ -1,7 +1,9 @@
 package com.bisbat.event_ticket_booking_system.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,9 +45,8 @@ public class User implements UserDetails {
     }
 
     @Override
+    @NullMarked
     public String getUsername() {
-        // Spring Security ใช้คำว่า Username แต่ระบบเราใช้ Email ในการล็อกอิน
-        // ดังนั้นตรงนี้เราต้อง return email กลับไปครับ
         return email;
     }
 

@@ -49,7 +49,7 @@ public class JwtService {
                 .claims(extraClaims) // ใส่ข้อมูลเสริมเข้าไปได้
                 .subject(userDetails.getUsername()) // ใส่ Email
                 .issuedAt(new Date(System.currentTimeMillis())) // เวลาที่สร้าง
-                .expiration(new Date(jwtExpirationMs)) // หมดอายุใน 24 ชั่วโมง
+                .expiration(new Date(System.currentTimeMillis() + jwtExpirationMs)) // หมดอายุใน 24 ชั่วโมง
                 .signWith(getSignInKey()) // เซ็นรับรองด้วยกุญแจลับ
                 .compact();
     }

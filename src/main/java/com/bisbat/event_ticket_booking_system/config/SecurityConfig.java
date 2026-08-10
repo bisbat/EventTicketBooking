@@ -1,5 +1,6 @@
 package com.bisbat.event_ticket_booking_system.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +36,13 @@ public class SecurityConfig {
                 // 3. ตั้งค่าเป็น Stateless (ไม่จำ Session)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+
+                // เพิ่มบล็อกนี้เข้าไป เพื่อดัก Error ว่าถ้ายังไม่ได้ Login ให้ตอบ 401
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) ->
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "ยังไม่ได้เข้าสู่ระบบ (Token ขาดหายหรือไม่ถูกต้อง)")
+                        )
                 )
 
                 // 4. เอา Filter ของเราไปวางดักไว้

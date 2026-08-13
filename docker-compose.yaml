@@ -12,5 +12,20 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-server
+    ports:
+      - "5672:5672"   # Port สำหรับให้ Spring Boot ส่งข้อความเข้ามา
+      - "15672:15672" # Port สำหรับหน้าเว็บ Dashboard
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      -
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq # (Option) ป้องกันคิวหายเวลาปิด Container
+    restart: unless-stopped
+
 volumes:
   postgres_data:
+  rabbitmq_data:

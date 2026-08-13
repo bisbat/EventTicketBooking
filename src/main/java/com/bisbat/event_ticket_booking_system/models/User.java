@@ -36,7 +36,6 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
-    // --- ส่วนที่ต้องเพิ่มเข้ามาเพราะ implements UserDetails ---
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -55,26 +54,4 @@ public class User implements UserDetails {
         return password;
     }
 
-    // --- 4 เมธอดด้านล่างนี้ เป็นการเช็คสถานะบัญชี (เช่น โดนแบนไหม) ---
-    // เพื่อความง่าย เบื้องต้นเรา return true ให้หมดไปก่อนครับ
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

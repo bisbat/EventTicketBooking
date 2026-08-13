@@ -16,20 +16,15 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
 
-//    @ExceptionHandler(BadCredentialsException.class)
-//    public ResponseEntity<Map<String, Object>> handleBadCredentials(BadCredentialsException ex) {
-//        // Deliberately generic message: don't reveal whether the email exists or not
-//        return buildResponse(HttpStatus.UNAUTHORIZED, "Invalid email or password");
-//    }
-//
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex) {
-//        String message = ex.getBindingResult().getFieldErrors().stream()
-//                .findFirst()
-//                .map(err -> err.getField() + ": " + err.getDefaultMessage())
-//                .orElse("Validation failed");
-//        return buildResponse(HttpStatus.BAD_REQUEST, message);
-//    }
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidEventDate(ResourceNotFoundException ex){
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidSeatCapacity(BusinessRuleException ex){
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
 
     private ResponseEntity<Map<String, Object>> buildResponse(HttpStatus status, String message) {
         Map<String, Object> body = new HashMap<>();

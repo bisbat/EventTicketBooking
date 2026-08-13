@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth") // จำได้ไหมครับ ใน SecurityConfig เราตั้งให้ /api/auth/** เข้าได้ฟรี
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService service;
 
-    // API: POST /api/auth/register
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(
             @RequestBody RegisterRequest request
@@ -25,7 +24,6 @@ public class AuthController {
         return ResponseEntity.ok(service.register(request));
     }
 
-    // API: POST /api/auth/login
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> authenticate(
             @RequestBody LoginRequest request

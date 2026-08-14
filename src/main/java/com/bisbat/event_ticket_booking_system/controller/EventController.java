@@ -3,6 +3,7 @@ package com.bisbat.event_ticket_booking_system.controller;
 import com.bisbat.event_ticket_booking_system.dto.event.EventRequest;
 import com.bisbat.event_ticket_booking_system.models.Event;
 import com.bisbat.event_ticket_booking_system.service.EventService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class EventController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
-    public Event createEvent(@RequestBody EventRequest request){
+    public Event createEvent(@Valid@RequestBody EventRequest request){
         return eventService.createEvent(request);
     }
 
@@ -26,7 +27,7 @@ public class EventController {
     @PutMapping("/{id}")
     public Event updateEvent(
             @PathVariable UUID id,
-            @RequestBody EventRequest request
+            @Valid @RequestBody EventRequest request
     ) {
         return eventService.updateEvent(id, request);
     }

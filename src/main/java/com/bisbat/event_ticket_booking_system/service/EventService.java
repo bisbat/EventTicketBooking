@@ -62,6 +62,7 @@ public class EventService {
 
         int newAvailableSeats = request.totalSeats() - bookedSeats;
 
+
         event.setName(request.name());
         event.setTotalSeats(request.totalSeats());
         event.setAvailableSeats(newAvailableSeats);
